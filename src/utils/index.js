@@ -4,6 +4,7 @@ function formatNumber (n) {
 }
 
 export function formatTime (date) {
+  date = new Date(date)
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -17,4 +18,3 @@ export function formatTime (date) {
 
   return `${t1} ${t2}`
 }
-
