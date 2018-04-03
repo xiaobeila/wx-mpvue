@@ -1,36 +1,81 @@
 <template>
-  <swiper autoplay, indicator-dots, circular>
-    <swiper-item v-for="item of imgUrls" v-bind:key="item">
-      <img v-bind:src="item" class="slide-image" width="355" height="150"/>
-    </swiper-item>
-</swiper>
+  <div class="container">
+    <swiper autoplay, indicator-dots, circular>
+      <swiper-item v-for="item of news.informationBanner" v-bind:key="item">
+        <img v-bind:src="item.image" class="slide-image" width="355" height="150" />
+      </swiper-item>
+    </swiper>
+    <div class="news-wrap">
+      <div v-if="!!news.information && !!news.information.items">
+        <news-item v-for="item of news.information.items" :news="item" :key="item.newsid"></news-item>
+      </div>
+    </div>
+    <div class="nomore">只给看这么多</div>
+  </div>
 </template>
 
 <script>
+import wx from 'wx'
+import {
+  mapState,
+  mapActions
+} from 'vuex'
+import newsItem from '@/components/news-item'
+
 export default {
   data () {
     return {
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      ]
+      page: 1
+    }
+  },
+  components: {
+    newsItem
+  },
+  computed: {
+    ...mapState([
+      'news'
+    ])
+  },
+  mounted () {
+    this.refresh()
+  },
+  onPullDownRefresh () {
+    this.refresh()
+  },
+  methods: {
+    ...mapActions([
+      'getNewsList'
+    ]),
+    async refresh () {
+      await Promise.all([
+        this.getNewsList(true)
+      ])
+      wx.stopPullDownRefresh()
     }
   }
 }
 </script>
 
-<style lang="scss">
-$color: red;
-body {
-  background: $color;
-}
-
+<style lang="less" scoped>
 swiper {
+  width: 100%;
   height: 200px;
 }
+
 .slide-image {
   width: 100%;
   height: 100%;
+}
+
+.news-wrap {
+  padding: 0 10px;
+}
+
+.nomore {
+  width: 100%;
+  line-height: 50px;
+  text-align: center;
+  font-size: 14px;
+  color: #ccc;
 }
 </style>

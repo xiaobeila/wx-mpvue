@@ -4,11 +4,11 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-function getEntry(dir, entryFile) {
+function getEntry (dir, entryFile) {
   const files = fs.readdirSync(dir)
   return files.reduce((res, k) => {
     const page = path.resolve(dir, k, entryFile)
@@ -39,16 +39,15 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue': 'mpvue',
-      '@': resolve('src')
+      '@': resolve('src'),
+      'utils': resolve('src/utils'),
+      flyio: 'flyio/dist/npm/wx',
+      wx: resolve('src/utils/wx')
     },
     symlinks: false
   },
   module: {
     rules: [
-      {
-        test: /\.sass$/,
-        loaders: ['style', 'css', 'sass']
-      },
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
