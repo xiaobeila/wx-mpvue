@@ -2,6 +2,10 @@ import Vue from 'vue'
 import store from '@/store'
 import App from './App'
 
+// 增加全局方法
+import uiti from 'utils'
+global.uiti = uiti
+
 Vue.config.productionTip = false
 
 const app = new Vue({

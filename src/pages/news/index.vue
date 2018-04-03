@@ -16,6 +16,7 @@
 
 <script>
 import wx from 'wx'
+const uiti = global.uiti
 import {
   mapState,
   mapActions
@@ -27,6 +28,13 @@ export default {
     return {
       page: 1
     }
+  },
+  created () {
+    // 调用应用实例的方法获取全局数据
+    this.getUserInfo()
+
+    console.log(uiti.formatTime('2018-04-03'))
+    // console.log(uiti)
   },
   components: {
     newsItem
@@ -51,6 +59,19 @@ export default {
         this.getNewsList(true)
       ])
       wx.stopPullDownRefresh()
+    },
+    getUserInfo () {
+      // 调用登录接口
+      wx.login({
+        success: () => {
+          wx.getUserInfo({
+            success: (res) => {
+              this.userInfo = res.userInfo
+              console.log(this.userInfo)
+            }
+          })
+        }
+      })
     }
   }
 }
