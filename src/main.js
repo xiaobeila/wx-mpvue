@@ -18,29 +18,35 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ['pages/logs/logs', 'pages/index/index', '^pages/news/news'],
+    pages: ['^pages/news/news', 'pages/detail/detail', 'pages/personal/personal'],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      backgroundTextStyle: 'dark',
+      navigationBarBackgroundColor: '#ed8c1f',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'white',
+      enablePullDownRefresh: false
     },
     tabBar: {
       color: '#999',
-      selectedColor: '#d22222',
+      selectedColor: '#ff8a00',
       backgroundColor: '#fff',
-      borderStyle: 'black',
+      borderStyle: '#eee',
       list: [{
-        pagePath: 'pages/index/index',
-        text: '资讯',
-        iconPath: '',
-        selectedIconPath: ''
+        pagePath: 'pages/news/news',
+        text: '资讯库',
+        iconPath: 'static/images/info1.png',
+        selectedIconPath: 'static/images/info2.png'
       }, {
-        pagePath: 'pages/logs/logs',
-        text: '圈子',
-        iconPath: '',
-        selectedIconPath: ''
+        pagePath: 'pages/personal/personal',
+        text: '我的',
+        iconPath: 'static/images/personal1.png',
+        selectedIconPath: 'static/images/personal2.png'
       }]
-    }
+    },
+    networkTimeout: {
+      request: 20000,
+      downloadFile: 20000
+    },
+    debug: false
   }
 }

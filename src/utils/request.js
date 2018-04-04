@@ -11,22 +11,18 @@ request.config.timeout = 10 * 1000
 request.config.baseURL = process.env.BASE_URL
 
 request.interceptors.request.use((config, promise) => {
-  wx.showNavigationBarLoading()
+  wx.showLoading({ title: '拼命加载中...' })
+
   // 给所有请求添加自定义header
   let timestamp = Date.parse(new Date())
   let t = timestamp / 1000
   let m = md5.hex(`xioa${t}`)
-  var userId = 0
-  var userInfo = wx.getStorageSync('user_info')
-  if (userInfo && userInfo.user_id) {
-    userId = userInfo.user_id
-  };
+
   let headers = {
     'content-type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
     m: m,
-    t: t,
-    uid: userId
+    t: t
   }
   config.headers = headers
   return config
@@ -34,11 +30,11 @@ request.interceptors.request.use((config, promise) => {
 
 request.interceptors.response.use(
   (response, promise) => {
-    wx.hideNavigationBarLoading()
+    wx.hideLoading()
     return promise.resolve(response.data)
   },
   (err, promise) => {
-    wx.hideNavigationBarLoading()
+    wx.hideLoading()
     wx.showToast({
       title: err.message,
       icon: 'none'

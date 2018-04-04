@@ -6,11 +6,17 @@ if (userInfo && userInfo.user_id) {
   userId = userInfo.user_id
 };
 
-const api = {
-  /**
-   * newsList 获取资讯列表
-   */
-  getNewsList: (r) => request.get('api/information/index', { user_id: userId })
+export function getNewsList ({ page = 1 } = {}) {
+  let params = {
+    user_id: userId,
+    page: page
+  }
+  return request.get('api/information/index', params)
 }
 
-export default api
+export function getNewsDetail ({ id = 0 } = {}) {
+  let params = {
+    user_id: userId
+  }
+  return request.get(`api/information/detail/${id}`, params)
+}
